@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+public class Example {
+	public static void main(String args[]) {
+		Scanner scanner = null;
+		int money = 0; // 전체 돈의 액수
+		int a, b, c, d, e, f, g, h; // 오만원, 만원, 천원, 오백원, 백원, 오십원, 십원, 일원
+		System.out.print("금액을 입력하시오>>");
+		try {
+			scanner = new Scanner(System.in);
+			while(scanner.hasNext()) {
+				money = scanner.nextInt();
+				a = money / 50000;
+				money = money - 50000*a;
+				b = money / 10000;
+				money = money - 10000*b;
+				c = money / 1000;
+				money = money - 1000*c;
+				d = money / 500;
+				money = money - 500*d;
+				e = money / 100;
+				money = money - 100*e;
+				f = money / 50;
+				money = money - 50*f;
+				g = money / 10;
+				money = money - 10*g;
+				h = money / 1;
+				if(a>0) {
+					System.out.println("오만원권 "+a+"매");
+				}
+				if(b>0) {
+					System.out.println("만원권 "+b+"매");
+				}
+				if(c>0) {
+					System.out.println("천원권 "+c+"매");
+				}
+				if(d>0) {
+					System.out.println("오백원 "+d+"개");
+				}
+				if(e>0) {
+					System.out.println("백원 "+e+"개");
+				}
+				if(f>0) {
+					System.out.println("오십원 "+f+"개");
+				}
+				if(g>0) {
+					System.out.println("십원 "+g+"개");
+				}
+				if(h>0) {
+					System.out.println("일원 "+h+"개");
+				}
+			}
+		} catch (Exception e1) {
+			System.err.println("Exception occured!");
+		} finally {
+			if (scanner != null) {
+				scanner.close();
+			}
+		}
+	}
+}
