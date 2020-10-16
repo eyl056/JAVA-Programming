@@ -1,0 +1,42 @@
+
+public class ByteInt {
+
+	public static void main(String[] args) {
+		byte[] IPAddress = {(byte)192, (byte)168, (byte)0, (byte)223 };
+		
+		/////// byte 크기의 자료 4개 정수자료로 만들기
+		int integer = (((int)IPAddress[0] & 0xff)<<24 |
+		((int)IPAddress[1] & 0xff)<<16 |
+		((int)IPAddress[2] & 0xff)<<8 |
+		((int)IPAddress[3] & 0xff)<<0);
+		// 비트 연산자 | == 산술 연산자 +
+		
+		System.out.println("정수 : " + integer);
+		System.out.println(Integer.toBinaryString(integer));
+		
+		/////// 정수 자료에서 바이트 크기로 분해하기
+		
+		int integer3 = 150150;
+		
+		byte[] byteArray = new byte[4];
+		
+		byteArray[0] = (byte)(integer3 >> 24);
+		byteArray[1] = (byte)(integer3 >> 16);
+		byteArray[2] = (byte)(integer3 >> 8);
+		byteArray[3] = (byte)(integer3 >> 0);
+
+		System.out.println("정수를 바이트 배열로 나눠넣은 것");
+		for(int i=0;i<4;i++) {
+			System.out.print(byteArray[i]+" ");
+		}
+		System.out.println("\n정수 -> 바이트 배열 -> 다시 정수");
+		int result = 0;
+		result += ((int)byteArray[0] & 0xff)<<24;
+		result += ((int)byteArray[1] & 0xff)<<16;
+		result += ((int)byteArray[2] & 0xff)<<8;
+		result += ((int)byteArray[3] & 0xff)<<0;
+		
+		System.out.println("다시 정수 : "+result);
+	}
+
+}
