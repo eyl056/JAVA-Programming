@@ -30,13 +30,22 @@ public class ByteInt {
 			System.out.print(byteArray[i]+" ");
 		}
 		System.out.println("\n정수 -> 바이트 배열 -> 다시 정수");
-		int result = 0;
-		result += ((int)byteArray[0] & 0xff)<<24;
-		result += ((int)byteArray[1] & 0xff)<<16;
-		result += ((int)byteArray[2] & 0xff)<<8;
-		result += ((int)byteArray[3] & 0xff)<<0;
+		// 비트 연산자를 이용해 정수 ALL에 바이트 배열 넣기
+		int ALL = 0;
+		ALL = ((int)byteArray[0] & 0xff)<<24 |
+			((int)byteArray[1] & 0xff)<<16 |
+			((int)byteArray[2] & 0xff)<<8 |
+			((int)byteArray[3] & 0xff)<<0;
 		
-		System.out.println("다시 정수 : "+result);
+		// 산술 연산자를 이용해 정수 ALL2에 바이트 배열 넣기
+		int ALL2 = 0;
+		ALL2 += ((int)byteArray[0]& 0xff) * Math.pow(2, 24);
+		ALL2 += ((int)byteArray[1]& 0xff) * Math.pow(2, 16);
+		ALL2 += ((int)byteArray[2]& 0xff) * Math.pow(2, 8);
+		ALL2 += ((int)byteArray[3]& 0xff) * Math.pow(2, 0);
+		
+		System.out.println("다시 정수 : "+ALL);
+		System.out.println("다시 정수2 : "+ALL2);
 	}
 
 }
