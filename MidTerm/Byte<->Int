@@ -16,9 +16,19 @@ public class ByteInt {
 		
 		/////// 정수 자료에서 바이트 크기로 분해하기
 		
-		int integer3 = 150150;
+		int integer3 = -1062731553;
 		
 		byte[] byteArray = new byte[4];
+		
+		byteArray[0] |= (byte)((integer3>>24)&0xff);
+		byteArray[1] |= (byte)((integer3>>16)&0xff);
+		byteArray[2] |= (byte)((integer3>>8)&0xff);
+		byteArray[3] |= (byte)((integer3>>0)&0xff);
+		
+		for(int i=0;i<4;i++) {
+			System.out.print(0xff &byteArray[i]);
+			System.out.print(" ");
+		}
 		
 		byteArray[0] = (byte)(integer3 >> 24);
 		byteArray[1] = (byte)(integer3 >> 16);
@@ -27,8 +37,10 @@ public class ByteInt {
 
 		System.out.println("정수를 바이트 배열로 나눠넣은 것");
 		for(int i=0;i<4;i++) {
-			System.out.print(byteArray[i]+" ");
+			System.out.print(0xff &byteArray[i]);
+			System.out.print(" ");
 		}
+		
 		System.out.println("\n정수 -> 바이트 배열 -> 다시 정수");
 		// 비트 연산자를 이용해 정수 ALL에 바이트 배열 넣기
 		int ALL = 0;
@@ -36,6 +48,7 @@ public class ByteInt {
 			((int)byteArray[1] & 0xff)<<16 |
 			((int)byteArray[2] & 0xff)<<8 |
 			((int)byteArray[3] & 0xff)<<0;
+		
 		
 		// 산술 연산자를 이용해 정수 ALL2에 바이트 배열 넣기
 		int ALL2 = 0;
