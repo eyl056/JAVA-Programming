@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+public class Spiral {
+	
+	// 맨 바깥쪽 라인에서부터의 거리 측정하기(한칸씩 네모로 생각했을때)
+	public static int distance(int i, int j, int k, int l) {
+		int min = 0;
+		if( i<=j && i<=k && i<=l ) {
+			min=i;
+		}
+		else if( j<=i && j<=k && j<=l ) {
+			min = j;
+		}
+		else if( k<=i && k<=j && k<=l ) {
+			min = k;
+		}
+		else {
+			min = l;
+		}
+		return min; // 네 방향 중에서의 가장 작은 거리값 출력
+	}
+	
+	public static void main(String[] args) {
+		// N과 M 입력 받아 영역 지정하기
+
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("나선형 숫자 배열의 영역을 지정하세요");
+			System.out.println("N*M 영역에서 N과 M을 입력하세요");
+			int N = scanner.nextInt();
+			int M = scanner.nextInt();
+			System.out.println("\n"+N+"*"+M+"의 나선형 배열을 표시합니다\n");
+			int n=0; // 해당 영역의 값
+			int d = 0; // distance
+			
+			for(int y=1; y<=N; y++) { // 행의 개수
+				for(int x=1; x<=M; x++) { // 열의 개수
+					
+					d = distance(x-1, y-1, M-x, N-y);
+					
+					if( x==M-d || y==d+1) { // ㄱ자 형태
+						n = (x+y-1)-2*d;
+					}
+					else if(x==d+1 || y==N-d) { // ㄴ자 형태
+						n = 2*(M+N)-(x+y+1)-6*d;
+					}
+					
+					// 1에서부터 네모칸 별로 추가로 일정값 더해지면서 올라감
+					for(int i=d;i>=1;i--) {
+						n+=2*(N+M)-8*i+4; // 등차수열의 각 일반항
+					}
+					
+					//System.out.printf("%3d(%d)",n,d);
+					System.out.printf("%3d",n);
+				}
+				System.out.println();
+			}
+		} catch(Exception error) { // 예외처리
+			System.out.println("입력이 잘못되었습니다.");
+		}
+	}
+}
