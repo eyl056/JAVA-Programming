@@ -1,0 +1,153 @@
+
+public class Matrix {
+	
+	// 행렬의 덧셈 리턴
+		public static double[][] plus(double MatrixA[][],double MatrixB[][]) {
+		
+			if (MatrixA.length != MatrixB.length || MatrixA[0].length != MatrixB[0].length) { // 행렬의 덧셈은 각 행렬의 크기가 같아야 함
+				System.out.println("행과 열의 크기가 달라 행렬의 덧셈을 구할 수 없습니다.");
+				return null;
+			}
+			
+			double [][] resultAB = new double [MatrixA.length][MatrixB[0].length]; // 행렬의 덧셈 결과 행렬
+			
+			for(int i=0; i<MatrixA.length;i++) { 
+				for(int j=0;j<MatrixA[0].length;j++) {
+					resultAB[i][j] = MatrixA[i][j] + MatrixB[i][j]; // 결과 행렬에 저장
+				}
+			}
+			
+			return resultAB;
+		}
+	
+	// 행렬의 곱 리턴
+	public static double[][] multiply(double MatrixA[][],double MatrixB[][]) {
+	
+		double [][] resultAB = new double [MatrixA.length][MatrixB[0].length]; // 행렬의 곱 결과 행렬
+		
+		for(int i=0; i<MatrixA.length;i++) { 
+			for(int j=0;j<MatrixB[0].length;j++) {
+				double sum = 0;
+				for(int k=0; k < MatrixA[0].length;k++) { // 앞 행렬의 열과 뒤 행렬의 행이 k로 같아야 곱셈 가능
+					sum += MatrixA[i][k] * MatrixB[k][j]; // 각 행과 열의 곱의 합을 구하고
+				}
+				resultAB[i][j] = sum; // 결과 행렬에 저장
+			}
+		}
+		
+		return resultAB;
+	}
+	
+	// 가우스 소거법을 이용한 행렬의 역행렬 리턴
+	public static double[][] inverse(double Matrix[][]) {
+		
+		if (Matrix.length != Matrix[0].length) { // 정사각행렬의 역행렬 계산 
+			System.out.println("행과 열의 크기가 달라 역행렬을 구할 수 없습니다.");
+			return null;
+		}
+		int size = Matrix.length; // 몇 차 행렬인지 size에 저장
+		double [][] copyMat = new double [size][size]; // 행렬 복사본
+		double [][] resultMatrix = new double [size][size]; // 결과 저장 행렬
+		double [][] inverseMat = new double [size][size]; // 역행렬 최종 결과 행렬 
+		
+		
+		for(int i=0; i<size; i++) { // 행렬 복사본 생성
+			for(int j=0; j<size; j++) {
+				copyMat[i][j] = Matrix[i][j];
+			}
+		}
+		for(int i=0; i<size; i++) { // 단위행렬 생성 전 0으로 초기화
+			for(int j=0; j<size; j++) {
+				resultMatrix[i][j]=0;
+			}
+		}
+		for(int i=0; i<size; i++) { // 단위행렬 생성
+			resultMatrix[i][i]=1;
+		}
+		
+		// 기본행연산을 통해 기약행 사다리꼴
+		for (int n = 0; n < size; n++) {
+			if (copyMat[n][n] == 0) { // 각 행의 행 수의 열(주대각성분)이 0일 경우
+				for (int k = n; k < size; k++) {
+	               if (copyMat[k][n] != 0) { // 0이 아니면 계산 진행
+	                 for (int a = 0; a < size; a++) {
+	                	resultMatrix[n][a] = resultMatrix[n][a] + resultMatrix[k][a]; // 행 치환 이루어짐
+	                    copyMat[n][a] = copyMat[n][a] + copyMat[k][a];
+	                 }
+	                 break;
+                   }
+	             }
+	        }
+			// 각 행의 주대각성분이 0이 아닌 수일 경우
+	        double p = copyMat[n][n]; // 변수 p에 그 수를 저장시켜 둔 다음
+	        for (int a = 0; a < size; a++) {
+	        	resultMatrix[n][a] /= p; // 첫번째 열이 1이 되게 행 전체를 저장한 수로 나눠준다
+	            copyMat[n][a] /= p;
+	        }
+	        for (int i = 0; i < size; i++) { // 각 열의 맨 위의 행부터 시작해서
+	            if (i != n) {
+	               double p1 = copyMat[i][n]; // 변수 p1에 해당 수를 저장시켜 둔 다음
+	               for (int j = size - 1; j >= 0; j--) {
+	            	   resultMatrix[i][j] -= p1 * resultMatrix[n][j]; // -p1배를 더해 밑의 항을 0으로 만들어준다.
+	                   copyMat[i][j] -= p1 * copyMat[n][j];
+	                }
+	             }
+	         }
+		}
+		
+		for(int i=0;i<size;i++)  { // 역행렬 결과 저장
+			for(int j=0;j<size;j++) {
+				inverseMat[i][j]=resultMatrix[i][j];
+			}
+		}
+		
+		return inverseMat;
+	}
+	
+	public static void main(String args[]) {
+		double [][] MatrixA = {{1,2,3}, {2,5,3}, {1,0,8}}; // 행렬 A
+		double [][] MatrixB = {{1,-2,4}, {-5,2,0}, {1,0,3}}; // 행렬 B
+		
+		System.out.println("< 행렬 A와 행렬 B의 합 >");
+		double [][] plusMatAB = plus(MatrixA, MatrixB); // 행렬의 합 plusMatAB
+		// 행렬의 합 출력하기
+		for(int i=0; i<plusMatAB.length; i++) {
+			for(int j=0; j<plusMatAB[0].length; j++) {
+				System.out.print(plusMatAB[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("\n< 행렬 A와 행렬 B의 곱 >");
+		double [][] mulMatAB = multiply(MatrixA, MatrixB); // 행렬의 곱 mulMatAB
+		// 행렬의 곱 출력하기
+		for(int i=0; i<mulMatAB.length; i++) {
+			for(int j=0; j<mulMatAB[0].length; j++) {
+				System.out.print(mulMatAB[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+		
+		System.out.println("\n< 행렬 A의 역행렬 InvA >");
+		double [][] MatrixInvA = inverse(MatrixA); // 역행렬 MatrixInvA
+		// 행렬의 역행렬 출력하기
+		for(int i=0; i<MatrixInvA.length ; i++) {
+			for(int j=0; j<MatrixInvA[0].length; j++) {
+				System.out.print(MatrixInvA[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+		
+		// 행렬 * 역행렬 = 단위행렬 확인하기
+		System.out.println("\n< 행렬 * 역행렬 = 단위행렬 확인하기 >");
+		double [][] uniMat = multiply(MatrixA, MatrixInvA);
+		for(int i=0; i<uniMat.length; i++) {
+			for(int j=0; j<uniMat[0].length; j++) {
+				System.out.print(uniMat[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+}
