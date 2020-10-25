@@ -1,0 +1,41 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+class Grade {
+	private int math, science, english;
+	public Grade() { // 기본 생성자
+		math = 0;
+		science = 0;
+		english = 0;
+	}
+	public Grade(int math, int science, int english) { // 매개변수가 있는 생성자
+		this.math = math;
+		this.science = science;
+		this.english = english;
+	}
+	public double average() { // 수학, 과학, 영어 점수의 평균값 리턴
+		int sum = math+science+english;
+		return (double)sum/3;
+	}
+}
+public class Main {
+	public static void main(String[] args) {
+		boolean flag = true;
+		while(flag) { // flag 값을 통해 값의 입력 확인
+			try {
+				Scanner sc = new Scanner(System.in); // scanner를 try문 안에서 설정
+				System.out.println("수학, 과학, 영어 순으로 3개의 점수 입력>>");
+				int math = sc.nextInt(); // 점수 값 입력 받기
+				int science = sc.nextInt();
+				int english = sc.nextInt();
+				Grade me = new Grade(math, science, english); // 매개변수있는 생성자를 호출하여 초기값(점수) 지정된 객체 생성
+				System.out.printf("평균은 %.1f",me.average()); // average 메소드를 호출하여 객체의 평균값 출력
+				flag = false;
+				sc.close();
+				break;
+			} catch (InputMismatchException e) { // 숫자가 아닌 값이 입력되었을 때 예외 처리
+				System.out.println("ERROR: You must enter an integer");
+			}
+		}
+	}
+}
