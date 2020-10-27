@@ -1,0 +1,30 @@
+package javadoc;
+
+class ArrayUtil {
+	public static int[] concat(int[] a, int[] b) {
+		int length = a.length + b.length;
+		int[] concatArray = new int[length];
+		for(int i=0;i<a.length;i++) {
+			concatArray[i] = a[i];
+		}
+		for(int j=0;j<b.length;j++) {
+			concatArray[j] = b[a.length + j];
+		}
+		return concatArray;
+	}
+	public static void print(int[] a) {
+		System.out.println("[ ");
+		for(int i=0;i<a.length;i++) {
+			System.out.print(a[i] + " ");
+		}
+		System.out.println(" ]");
+	}
+}
+public class StaticEx {
+	public static void main(String[] args) {
+		int [] array1 = { 1, 5, 7, 9 };
+		int [] array2 = { 3, 6, -1, 100, 77 };
+		int [] array3 = ArrayUtil.concat(array1, array2);
+		ArrayUtil.print(array3);
+	}
+}
