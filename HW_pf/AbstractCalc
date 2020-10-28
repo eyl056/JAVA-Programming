@@ -1,0 +1,88 @@
+package package6_2;
+import java.util.*;
+
+abstract class Calc {
+	static int a, b;
+	static void setValue(int x, int y) {
+		a = x;
+		b = y;
+	}
+	abstract int calculate();
+}
+
+class Add extends Calc { // Calc 클래스를 상속받은 Add 클래스
+	@Override
+	int calculate() {
+		return a+b; // 덧셈 연산
+	}
+}
+class Sub extends Calc { // Calc 클래스를 상속받은 Sub 클래스
+	@Override
+	int calculate() {
+		return a-b; // 뺄셈 연산
+	}
+}
+class Mul extends Calc { // Calc 클래스를 상속받은 Mul 클래스
+	@Override
+	int calculate() {
+		return a*b; // 곱셈 연산
+	}
+}
+class Div extends Calc { // Calc 클래스를 상속받은 Div 클래스
+	@Override
+	int calculate() {
+		return a/b; // 나눗셈 연산
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		boolean flag = true;
+		String aa = null;
+		while(flag) {
+			try {
+				Scanner scanner = new Scanner(System.in);
+				System.out.println("두 정수와 연산자를 입력하시오>>");
+				aa = scanner.next(); // exit을 확인하기 위해 string으로 먼저 입력받기
+				int a = Integer.parseInt(aa); // string 값을 int로 바꿔주어 a 설정
+				int b = scanner.nextInt(); // b 값 입력받기
+				String s = scanner.next(); // 연산자 입력 받기
+				char op = s.charAt(0);
+				
+				if(Character.isDigit(op)) { // 연산자 입력 자리에 숫자가 들어온 경우 순서 다시 안내하기
+					System.out.println("피연산자 피연산자 연산자('+', '-', '*', '/') 순서로 입력하세요");
+					continue;
+				}
+				
+				switch(op) {
+				case '+': // + 연산자가 입력되면 덧셈 실행
+					Add add = new Add(); // add 이름의 새 객체 생성
+					Add.setValue(a, b); // 클래스명.static메소드를 통해 객체의 a와 b 값을 입력받은 a와 b의 값으로 설정
+					System.out.println(add.calculate()); // calculate메소드로 리턴된 계산 값 출력
+					break;
+				case '-': // - 연산자가 입력되면 뺄셈 실행
+					Sub sub = new Sub();
+					Sub.setValue(a, b);
+					System.out.println(sub.calculate());
+					break;
+				case '*': // * 연산자가 입력되면 곱셈 실행
+					Mul mul = new Mul();
+					Mul.setValue(a, b);
+					System.out.println(mul.calculate());
+					break;
+				case '/': // // / 연산자가 입력되면 나눗셈 실행
+					Div div = new Div();
+					Div.setValue(a, b);
+					System.out.println(div.calculate());
+					break;
+				}
+			} catch(Exception e) {
+				if(aa.equals("exit")) { // 처음 string으로 입력받은 aa가 exit이면 프로그램 종료
+					System.out.println("프로그램을 종료합니다.");
+					flag = false;
+				}
+				else System.out.println("정수를 입력하세요!"); // 그 외에 예외면 정수 입력 안내 출력
+			}
+		}
+	}
+}
