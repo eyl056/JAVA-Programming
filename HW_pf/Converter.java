@@ -1,0 +1,44 @@
+package Convert;
+
+import java.util.Scanner;
+
+abstract class Converter { 
+	abstract protected double convert(double src);
+	abstract protected String getSrcString();
+	abstract protected String getDestString();
+	protected double ratio;
+	
+	public void run() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println(getSrcString() + "을 "+getDestString()+"로 바꿉니다");
+		System.out.print(getSrcString()+"을 입력하세요>> "); 
+		double val = scanner.nextDouble(); // (원화) 입력 받기
+		double res = convert(val); // (달러 = 원화 / 환율)
+		System.out.println("변환 결과: "+res+getDestString()+"입니다"); // (변환된 환율) 출력
+		scanner.close();
+	}
+}
+
+class Won2Dollar extends Converter { // 원화를 달러로 변환하는 Won2Dollar 클래스
+	double ratio = 1136.0; // 1 달러 = 1136원
+	@Override
+	protected String getSrcString() { // 원을
+		return "원";
+	}
+	@Override
+	protected String getDestString() { // 달러로
+		return "달러";
+	}
+	@Override
+	protected double convert(double src) { // 변환하기 원화 / 환율 = 달러
+		return Math.round(src/ratio); // 소수점 제거
+	}
+}
+
+
+public class Main {
+	public static void main(String[] args) {
+		Won2Dollar w2d = new Won2Dollar(); // Won2Dollar 객체 생성
+		w2d.run(); // run 실행
+	}
+}
